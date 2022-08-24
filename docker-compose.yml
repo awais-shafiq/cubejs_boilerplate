@@ -60,7 +60,7 @@ services:
       CUBEJS_DB_HOST: levvy-staging.cm0unuqxekak.us-west-1.redshift.amazonaws.com
       CUBEJS_DB_USER: redshiftuser
       CUBEJS_DB_PASS: jYyLZW09RvTi
-      CUBEJS_DB_NAME: pr168-workflow
+      CUBEJS_DB_NAME: test-staging-workflow-hevo
       CUBEJS_DB_PORT: 5439
 
       CUBEJS_API_SECRET: SECRET
