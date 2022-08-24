@@ -1,5 +1,5 @@
-cube(`HevoTenantprofile`, {
-  sql: `SELECT * FROM public.hevo_tenantprofile`,
+cube(`HevoClientofficelocation`, {
+  sql: `SELECT * FROM public.hevo_clientofficelocation`,
   
   preAggregations: {
     // Pre-Aggregations definitions go here
@@ -13,24 +13,24 @@ cube(`HevoTenantprofile`, {
   measures: {
     count: {
       type: `count`,
-      drillMembers: [id, country, city, name, createdAt, updatedAt]
+      drillMembers: [id, city, createdAt, updatedAt]
     }
   },
   
   dimensions: {
+    isPrimary: {
+      sql: `is_primary`,
+      type: `string`
+    },
+    
     id: {
       sql: `id`,
       type: `number`,
       primaryKey: true
     },
     
-    zipCode: {
-      sql: `zip_code`,
-      type: `string`
-    },
-    
-    country: {
-      sql: `country`,
+    zip: {
+      sql: `zip`,
       type: `string`
     },
     
@@ -44,43 +44,13 @@ cube(`HevoTenantprofile`, {
       type: `string`
     },
     
-    address: {
-      sql: `address`,
+    street: {
+      sql: `street`,
       type: `string`
     },
     
-    webUrl: {
-      sql: `web_url`,
-      type: `string`
-    },
-    
-    logoUrl: {
-      sql: `logo_url`,
-      type: `string`
-    },
-    
-    phone: {
-      sql: `phone`,
-      type: `string`
-    },
-    
-    businessType: {
-      sql: `business_type`,
-      type: `string`
-    },
-    
-    industry: {
-      sql: `industry`,
-      type: `string`
-    },
-    
-    dba: {
-      sql: `dba`,
-      type: `string`
-    },
-    
-    name: {
-      sql: `name`,
+    hq: {
+      sql: `hq`,
       type: `string`
     },
     

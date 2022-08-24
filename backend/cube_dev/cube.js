@@ -7,29 +7,29 @@ module.exports = {
 		try {
 
 
-			const user = JSON.parse(req.headers.user);
-			req.securityContext = user;
+			// const user = JSON.parse(req.headers.user);
+			req.securityContext = {};
 
 		} catch {
 			throw new Error('Could not authenticate user from LDAP');
 		}
 	},
 
-	queryRewrite: (query, { securityContext }) => {
+	// queryRewrite: (query, { securityContext }) => {
 
-		console.log({ query, securityContext });
+	// 	console.log({ query, securityContext });
 
-		// Ensure `securityContext` has an `id` property
-		if (!securityContext.tenant_id) {
-			throw new Error('No id found in Security Context!');
-		}
+	// 	// Ensure `securityContext` has an `id` property
+	// 	if (!securityContext.tenant_id) {
+	// 		throw new Error('No id found in Security Context!');
+	// 	}
 
-		query.filters.push({
-			member: 'HevoTenantprofile.id',
-			operator: 'equals',
-			values: [securityContext.tenant_id],
-		});
+	// 	query.filters.push({
+	// 		member: 'HevoTenantprofile.id',
+	// 		operator: 'equals',
+	// 		values: [securityContext.tenant_id],
+	// 	});
 
-		return query;
-	},
+	// 	return query;
+	// },
 };
