@@ -1,0 +1,9 @@
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+name: cubejs
+prefix: /v1/cube/
+timeout_ms: 0
+rewrite: ""
+service: cube:4040
+bypass_auth: false

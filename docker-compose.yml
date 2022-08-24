@@ -1,0 +1,71 @@
+version: "3.3"
+
+services:
+  ambassador:
+    image: datawire/ambassador:1.10.0
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend/ambassador:/ambassador/ambassador-config
+    environment:
+      - AMBASSADOR_NO_KUBEWATCH=no_kubewatch
+
+  # postgres:
+  #   build: backend/postgres-dev/
+  #   container_name: postgres
+  #   ports:
+  #     - 5432:5432
+  #   restart: always
+  #   volumes:
+  #     - ./backend/db_data/:/var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+  #     POSTGRES_DB_LIST: $POSTGRES_DATABASE_LIST
+  #     POSTGRES_USER: $POSTGRES_USERNAME
+
+  # adminer:
+  #   image: adminer
+  #   container_name: adminer
+  #   restart: always
+  #   ports:
+  #     - $MACHINE_ADMINER_PORT:$ADMINER_PORT
+  #   environment:
+  #     ADMINER_DEFAULT_SERVER: postgres
+
+  sternguard:
+    build: backend/sternguard/
+    container_name: sternguard
+    command: sh ./docker-entrypoint.sh
+    restart: always
+    volumes:
+      - ./backend/devkeys:/tmp/secrets
+    ports:
+      - $STERNGUARD_PORT:$STERNGUARD_PORT
+    # depends_on:
+      # - postgres
+    environment:
+      PORT: $STERNGUARD_PORT
+      ACCESS_TOKEN_SECRET_KEY: access_secret
+      REFRESH_TOKEN_SECRET_KEY: refresh_secret
+      NODE_ENV: development
+
+  cube:
+    image: cubejs/cube:latest
+    container_name: cube
+    ports:
+      - 4040:4040  # Cube.js API and Developer Playground
+    environment:
+      PORT: 4040
+      CUBEJS_DB_TYPE: redshift
+      CUBEJS_DB_HOST: levvy-staging.cm0unuqxekak.us-west-1.redshift.amazonaws.com
+      CUBEJS_DB_USER: redshiftuser
+      CUBEJS_DB_PASS: jYyLZW09RvTi
+      CUBEJS_DB_NAME: pr168-workflow
+      CUBEJS_DB_PORT: 5439
+
+      CUBEJS_API_SECRET: SECRET
+      CUBEJS_DEV_MODE: "true"
+      CUBEJS_CACHE_AND_QUEUE_DRIVER: memory
+    volumes:
+      - ./backend/cube_dev:/cube/conf
+
